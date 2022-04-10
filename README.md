@@ -105,7 +105,9 @@ public class Huffman
 	}
 }
 ```
-##여기에 입력한 파일
+
+##여기에 입력한 텍스트 파일의 
+
 ```
 Read by Richard Scott
 Written by Rudyard Kipling
@@ -151,7 +153,9 @@ So Mowgli went away and hunted with the four cubs in the jungle from that day on
 
 But that is a story for grown-ups.
 ```
+
 ##나온 결과값
+
 ```
  =000
 l=00100
