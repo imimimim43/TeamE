@@ -3,9 +3,10 @@ import java.util.Scanner;
 
 
 public class Main {
-	static int[] R;
-	static int[] C;
-	static int[][] dp;
+
+	static int[] R;	
+	static int[] C;	
+	static int[][] dp;	
 	static int N;
 	
 	public static int func(int x,int y) {
