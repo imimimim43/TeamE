@@ -1,11 +1,11 @@
 # TeamE
 ```
 package test;
-import java.util.Scanner;
 import java.util.*;
-import java.io.*;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+//전에 필요없던거 지우고 몇 개 추가함
 
 //노드
 class Node
@@ -60,19 +60,10 @@ public class Huffman
 		return queue.poll();
 	}
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		File file=new File("C:\\Users\\user\\asdf.txt");
-    	Scanner scan = null;
-		try 
-		{
-			scan = new Scanner(file);
-		} catch (FileNotFoundException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String text = scan.nextLine();; //input.txt 파일을 읽어 String으로 바꾸기
+		//전이랑 고친 부분(다른 라이브러리도 같이 썼음)
+		String text = Files.readString(Paths.get("C:\\Users\\user\\asdf.txt"));//파일을 읽어 String으로 바꾸기
 		
 		HashMap <Character, Integer> dictionary = new HashMap <Character, Integer>(); //각각의 문자에 대한 빈도수를 확인 할 변수
 		
