@@ -106,7 +106,7 @@ public class Huffman
 }
 ```
 
-##여기에 입력한 텍스트 파일의 
+## 여기에 입력한 텍스트 파일의 내용
 
 ```
 Read by Richard Scott
@@ -154,7 +154,7 @@ So Mowgli went away and hunted with the four cubs in the jungle from that day on
 But that is a story for grown-ups.
 ```
 
-##나온 결과값
+## 나온 결과값
 
 ```
  =000
