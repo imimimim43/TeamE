@@ -1,4 +1,110 @@
 # TeamE
+
+<br>
+
+# 허프만 압축
+
+<ol>
+<li>허프만 압축의 간단한 설명</li>
+<li>코드 설명</li>
+<li>결과값</li>
+</ol>
+
+---
+
+#### ○허프만 압축의 기본적인 설명
+
+<br>
+
+허프만(Huffman) 압축은 파일에 빈번히 나타나는 문자에는 짧은 이진 코드를, 드물게 나타나는 문자에는 긴 이진 코드를 할당하는 방식으로, 즉 **빈도수**에 따라 서로 다른 정수를 대입해줌으로서 텍스트파일의 크기를 줄이는 방법이다.
+비교적 byte값이 큰 char을 int로 바꾸어 byte값을 줄이는 방식을 사용하는대, 예를 들자면 'a'를 '101'과 같은 식으로 바꾸는 것이다.  
+바로 코드로 들어가보자.
+
+---
+
+<br>
+
+#### 코드 설명
+
+<br>
+
+우선 우리는 java에 허프만 압축을 구현하기 위해 트리를 이용할 것이고, 빈도수를 기반으로 java에서 기본 라이브러리로 제공하는 우선순위 큐를 구현할 것이다. 추가적으로 빈도수는 java에서 제공하는 해시 맵을 이용하여 알아볼 것이다.  
+기본적인 순서는 아래와 같다.
+
+<br>
+
+```
+1_ 원하는 텍스트파일을 가져와서 String으로 받는다.
+2_ 입력받은 문자열에서 한글자씩 가져와 해시 맵에 가져온 뒤에 빈도수를 체크한다.
+3_ 이후 빈도수가 1 이상인 문자에 한해서 우선순위 큐에 삽입한다.(빈도수에 따르기에 최소 힙과 같은 형태가 된다.)
+4_ 이후 0과 1을 붙이며 허프만 압축을 구현한다.
+5_ 글자에 따라 무엇이 배정되었는지 확인하고 결과값과 압축률을 출력한다.
+```
+
+<br>
+
+우선 기본적으로 트리에 들어갈 노드를 구현해보자
+
+```
+//노드
+class Node
+{
+	public char ch; //글자 하나 들어갈 것
+	public int freq; //그 글자의 빈도수
+	public Node left, right; //현 노드의 오른쪽과 왼쪽 노드(트리)
+}
+```
+
+그리고 우선순위 큐의 정렬을 담당할 빈도수 측정 클래스를 만들어보자
+
+```
+//빈도수 측정 함수
+class Freq_ch_Node implements Comparator<Node>
+{
+	public int compare(Node a, Node b)
+	{
+		int freq_a = a.freq;
+		int freq_b = b.freq;
+		return freq_a-freq_b;
+	}
+}
+```
+추가적으로 우선순위 큐와 해시 맵을 만들어주면 기본적인 준비는 끝났다.
+```
+public static PriorityQueue<Node> queue;//우선순위 큐
+public static HashMap <Character, String> charToCode = new HashMap <Character, String>(); //해시 맵
+```
+
+<br>
+
+main부터 차근차근 만들어보자.
+
+```
+String text = Files.readString(Paths.get("C:\\Users\\user\\asdf.txt"));//파일을 읽어 String으로 바꾸기		
+HashMap <Character, Integer> dictionary = new HashMap <Character, Integer>(); //각각의 문자에 대한 빈도수를 확인 할 변수
+```
+
+우선 텍스트 파일을 가져와서 String으로 변환하고(text), 위에서 만든 해시 맵을 이용하여 각 문자에 따른 빈도수를 확인 할 변수(HashMap <Character, Integer> dictionary)를 만들어놓자.
+
+```
+for(int i=0; i<text.length(); i++)
+{
+	char temp = text.charAt(i);
+	
+	if(dictionary.containsKey(temp))//만약 이미 확인 된 문자라면
+	{
+		dictionary.put(temp, dictionary.get(temp)+1);//temp에다가 +1하기
+	}
+	else//그게 아니라면
+	{
+		dictionary.put(temp, 1);//temp자체에 1 넣기
+	}
+}
+```
+
+그리고 반복문을 이용하여 text에서 한 글자씩 가져와 빈도수를 확인하여 해시 맵에 더해둔다.  
+여기서 **containsKey**는 해시 맵에 같은 key가 있으면 true, 없으면 fail을 반환하므로 **반복문 도중 temp가 text에서 이미 받았던 문자를 대입했다면 if문으로 바찔 수 있도록 해준다.** 또한 **put**은 요소를 추가하는 것으로 temp가 'a'를 처음 가져왔다면 a에 1을 추가하게 되는대, 'a'=1로 만들 수 있다. 예시로 temp에 'a'가 들어갔을 때 만약 한 번 나왔던 문자라면 dictionary<a , 1>에서 dictionary<a , 2>로 변하게 된다.
+
 ```
 package test;
 import java.util.*;
@@ -29,7 +135,7 @@ class Freq_ch_Node implements Comparator<Node>
 public class Huffman
 {
 	public static PriorityQueue<Node> queue;//우선순위 큐
-	public static HashMap <Character, String> charToCode = new HashMap <Character, String>(); //해시 사용하기 위해 만들기(문자에 따른 코드 값)
+	public static HashMap <Character, String> charToCode = new HashMap <Character, String>(); //해시 맵
 	
 	public static void traversal(Node root, String string)
 	{
